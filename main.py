@@ -1,4 +1,3 @@
-import time
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -29,7 +28,7 @@ def get_story_list(soup: BeautifulSoup):
 
 
 def save_as_json(dictionary_list):
-    with open("siruvarmalar.json", "w") as outfile:
+    with open("stories.json", "w") as outfile:
         # ensure_ascii=False to support Tamil string
         json.dump(dictionary_list, outfile, ensure_ascii=False, indent=2)
 
