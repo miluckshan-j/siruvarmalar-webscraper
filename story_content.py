@@ -26,8 +26,7 @@ def run_scrapper(stories: list):
         print(f"Scraping story_id: {index+1}...")
         req = requests.get(item["url"], headers)
         soup = BeautifulSoup(req.content, "html.parser")
-        story_dic = append_story_content(soup, item)
-        stories.append(story_dic)
+        append_story_content(soup, item)
         save_as_json(stories)
         time.sleep(10)
 
