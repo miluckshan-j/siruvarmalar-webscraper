@@ -33,6 +33,5 @@ def save_as_json(dictionary_list):
         json.dump(dictionary_list, outfile, ensure_ascii=False, indent=2)
 
 
-# Uncomment to save story list as JSON
-# get_story_list(soup.main)
-# save_as_json(stories_list)
+get_story_list(soup.main)
+save_as_json(stories_list)
