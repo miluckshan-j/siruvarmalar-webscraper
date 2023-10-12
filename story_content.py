@@ -3,6 +3,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 import json
+import traceback
 
 headers = {
     "Access-Control-Allow-Origin": "*",
@@ -22,12 +23,15 @@ def load_json(file):
 
 
 def run_scrapper(stories: list):
-    for index, item in enumerate(stories):
+    for index, story in enumerate(stories):
         print(f"Scraping story_id: {index+1}...")
-        req = requests.get(item["url"], headers)
-        soup = BeautifulSoup(req.content, "html.parser")
-        append_story_content(soup, item)
-        save_as_json(stories)
+        try:
+            req = requests.get(story["url"], headers)
+            soup = BeautifulSoup(req.content, "html.parser")
+            append_story_content(soup, story)
+            save_as_json(stories)
+        except Exception:
+            dump_error(f"{story['story_title']} {index+1}")
         time.sleep(10)
 
 
@@ -47,6 +51,12 @@ def save_as_json(dictionary_list):
     with open("siruvarmalar.json", "w") as outfile:
         # ensure_ascii=False to support Tamil string
         json.dump(dictionary_list, outfile, ensure_ascii=False, indent=2)
+
+
+def dump_error(story):
+    with open("error.log", "a") as log:
+        log.write(f"{time.ctime()} - {story}\n")
+        log.write(traceback.format_exc())
 
 
 stories = load_json("stories.json")
